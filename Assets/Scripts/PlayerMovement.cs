@@ -20,13 +20,20 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
+    private AudioController audioController;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        audioController = GetComponent<AudioController>();
     }
 
     void Update()
+    {
+    }
+
+    void FixedUpdate()
     {
         // Check if the player is grounded
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer);
@@ -35,6 +42,9 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         Vector3 moveDirection = new Vector3(horizontalInput, 0f, 0f);
         rb.velocity = new Vector3(moveDirection.x * speed, rb.velocity.y, moveDirection.z * speed);
+        if (!audioController.IsPlaying()) {
+            audioController.PlayFootstep();
+        }
 
         // Jump
         if (isGrounded && Input.GetButtonDown("Jump"))
@@ -44,7 +54,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Quick fall
-        if(rb.velocity.y < 0f) { isFalling = true; }
+        if (rb.velocity.y < 0f) { isFalling = true; }
         if (isFalling && !isGrounded)
         {
             rb.AddForce(Vector3.down * quickFallForce, ForceMode.Acceleration);
@@ -64,10 +74,6 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("isGrounded", isGrounded);
         animator.SetBool("isSliding", isSliding);
-    }
 
-    void FixedUpdate()
-    {
-        // Additional physics-related adjustments can be made here if needed
     }
 }
