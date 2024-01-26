@@ -1,0 +1,4 @@
+repository "I thought it was funny!@Omega53@cloud"
+  path "/"
+    br "/main"
+    co "/main"
