@@ -13,27 +13,32 @@ public class PlayerController : MonoBehaviour
     private float speed;
 
     public float jumpForce = 12f; // Adjust this value for a punchier jump
+    public float bounceForce = 5f; 
     public float quickFallForce = 20f; // Additional force to make the character fall faster
     public Transform groundCheck;
     public LayerMask groundLayer;
 
     private Rigidbody rb;
     private bool isGrounded;
+    private bool isBouncy;
     private bool isSliding;
     private bool isFalling;
 
     public LayerMask obstacleLayer;
     public LayerMask ItemLayer;
 
-    private Animator animator;
+    public Animator animator;
 
     private AudioController audioController;
+
+    private SphereCollider sphereCollider;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         audioController = GetComponent<AudioController>();
+        sphereCollider = GetComponent<SphereCollider>();
     }
 
     void Update()
@@ -42,7 +47,18 @@ public class PlayerController : MonoBehaviour
         speed = speedLevels[speedIndex];
 
         // Check if the player is grounded
+        bool wasGrounded = isGrounded;
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer);
+        if (!wasGrounded && isGrounded) { 
+            audioController.PlayLand();
+            animator.SetBool("isGrounded", true);
+        } // Play landing sound whenever player gets grounded
+        wasGrounded = isGrounded;
+
+
+
+        // Check if the player is on bouncy ground
+        //isBouncy = Physics.CheckSphere(groundCheck.position, 0.1f, bouncyLayer);        
 
         // Run
         Vector3 moveDirection = new Vector3(1, 0f, 0f);
@@ -57,8 +73,14 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Zero out the y component to avoid adding to the current y velocity
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if(isBouncy) rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
             Debug.Log("jumping");
+            audioController.PlayJump();
         }
+
+        // Do Jump Animation
+        animator.SetBool("isGrounded", isGrounded);
+
 
         // Quick fall
         if (rb.velocity.y < 0f) { isFalling = true; } else { isFalling = false; }
@@ -70,19 +92,30 @@ public class PlayerController : MonoBehaviour
         // Slide
         if (Input.GetButtonDown("Slide"))
         {
-            isSliding = true;
-            // Adjust collider or animation for sliding            
-        }
-        else if (Input.GetButtonUp("Slide"))
-        {
-            isSliding = false;
-            // Reset collider or animation for standing
+            Slide();
         }
 
 
         // Animation Flags
-        //animator.SetBool("isGrounded", isGrounded);
-        //animator.SetBool("isSliding", isSliding);
+    }
+
+    public void Slide()
+    {
+        isSliding = true;
+        // Adjust collider or animation for sliding            
+        animator.SetBool("isSliding", isSliding);
+        sphereCollider.radius = 0.5f * sphereCollider.radius;
+        audioController.PlaySlide();
+    }
+
+    public void stopSlide()
+    {
+        if (isSliding)
+        {
+            isSliding = false;
+            animator.SetBool("isSliding", isSliding);
+            sphereCollider.radius = 2 * sphereCollider.radius;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

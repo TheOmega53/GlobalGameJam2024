@@ -3,15 +3,19 @@ using UnityEngine;
 public class AudioController : MonoBehaviour
 {
     public AudioClip[] footstepSounds;  // Array of footstep audio clips
-    public AudioSource audioSource;     // Reference to the AudioSource component
+    public AudioClip jumpSound;         // Jumping audio clip
+    public AudioClip landSound;         // Landing audio clip
+    public AudioClip slideSound;        // Slide audio clip
+    public AudioSource fooutstepsSource;     // Reference to the footsteps AudioSource component
+    public AudioSource jumpSource;     // Reference to the jump AudioSource component
 
     private void Start()
     {
         // Ensure you have an AudioSource component attached to the same GameObject
-        if (audioSource == null)
+        if (fooutstepsSource == null)
         {
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
+            fooutstepsSource = GetComponent<AudioSource>();
+            if (fooutstepsSource == null)
             {
                 Debug.LogError("AudioSource component not found!");
             }
@@ -28,7 +32,7 @@ public class AudioController : MonoBehaviour
 
             // Play the selected footstep sound
 
-            audioSource.PlayOneShot(randomFootstepSound);
+            fooutstepsSource.PlayOneShot(randomFootstepSound);
         }
     }
 
@@ -38,5 +42,21 @@ public class AudioController : MonoBehaviour
         PlayRandomFootstepSound();
     }
 
-    public bool IsPlaying() { return audioSource.isPlaying; }
+    public bool IsPlaying() { return fooutstepsSource.isPlaying; }
+
+
+    public void PlayJump()
+    {
+        jumpSource.PlayOneShot(jumpSound);
+    }
+
+    public void PlayLand()
+    {
+        jumpSource.PlayOneShot(landSound);
+    }
+
+    public void PlaySlide()
+    {
+        jumpSource.PlayOneShot(slideSound);
+    }
 }

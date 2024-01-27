@@ -33,6 +33,14 @@ public class GameController : MonoBehaviour
     public PlayerController player;
     public CameraFollow cameraFollow;
     public Canvas Menu;
+
+
+    public AudioClip IntroMusic;
+    public AudioClip LevelMusic;
+    public AudioSource audioSource;
+
+    private bool isPaused = false;
+
     private void Awake()
     {
         // Ensure there is only one instance of the GameController
@@ -50,12 +58,53 @@ public class GameController : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        // Check for the Escape key to toggle pause
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
+            TogglePause();
+        }
 
+    }
+
+    void TogglePause()
+    {
+        // Toggle the isPaused flag
+        isPaused = !isPaused;
+
+        // Pause or unpause the game based on the isPaused flag
+        if (isPaused)
+        {
+            Pause();
+        }
+        else
+        {
+            Unpause();
         }
     }
 
+    void Pause()
+    {
+        // Pause the game by setting the time scale to 0
+        Time.timeScale = 0f;
+
+        // You can also add additional logic for pausing game elements or showing a pause menu
+        Debug.Log("Game Paused");
+    }
+
+    void Unpause()
+    {
+        // Unpause the game by setting the time scale back to 1
+        Time.timeScale = 1f;
+
+        // You can also add additional logic for unpausing game elements or hiding a pause menu
+        Debug.Log("Game Unpaused");
+    }
+
+
+    private void Start()
+    {
+        audioSource.PlayOneShot(IntroMusic);
+    }
 
     public void StartGame()
     {
@@ -63,6 +112,10 @@ public class GameController : MonoBehaviour
         player.enabled = true;
 
         Menu.gameObject.SetActive(false);
+
+        audioSource.PlayOneShot(LevelMusic);
+
+        //player.animator.SetTrigger("Run");
     }
 
     public void CameraFollow(bool enabled)

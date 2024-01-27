@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target != null)
+        if (target != null && Time.timeScale != 0f)
         {
             // Keep the camera's Y position fixed
             float desiredY = transform.position.y;
@@ -29,4 +29,4 @@ public class CameraFollow : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
     }
-}
+}                                                                                                    
