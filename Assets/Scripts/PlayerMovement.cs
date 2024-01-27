@@ -31,18 +31,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-    }
-
-    void FixedUpdate()
-    {
         // Check if the player is grounded
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer);
 
         // Run
-        float horizontalInput = Input.GetAxis("Horizontal");
-        Vector3 moveDirection = new Vector3(horizontalInput, 0f, 0f);
+        Vector3 moveDirection = new Vector3(1, 0f, 0f);
         rb.velocity = new Vector3(moveDirection.x * speed, rb.velocity.y, moveDirection.z * speed);
-        if (!audioController.IsPlaying()) {
+        if (!audioController.IsPlaying())
+        {
             audioController.PlayFootstep();
         }
 
@@ -54,7 +50,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Quick fall
-        if (rb.velocity.y < 0f) { isFalling = true; }
+        if (rb.velocity.y < 0f) { isFalling = true; } else { isFalling = false; }
         if (isFalling && !isGrounded)
         {
             rb.AddForce(Vector3.down * quickFallForce, ForceMode.Acceleration);
@@ -72,8 +68,15 @@ public class PlayerController : MonoBehaviour
             // Reset collider or animation for standing
         }
 
+
+        // Animation Flags
         animator.SetBool("isGrounded", isGrounded);
         animator.SetBool("isSliding", isSliding);
+    }
+
+    void FixedUpdate()
+    {
+
 
     }
 }
