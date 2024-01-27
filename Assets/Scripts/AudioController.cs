@@ -5,8 +5,6 @@ public class AudioController : MonoBehaviour
     public AudioClip[] footstepSounds;  // Array of footstep audio clips
     public AudioSource audioSource;     // Reference to the AudioSource component
 
-    public bool isPlaying;
-
     private void Start()
     {
         // Ensure you have an AudioSource component attached to the same GameObject

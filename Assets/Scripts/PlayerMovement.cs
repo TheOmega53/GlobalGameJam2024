@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool isFalling;
 
     public LayerMask obstacleLayer;
+    public LayerMask ItemLayer;
 
     private Animator animator;
 
@@ -85,13 +87,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((obstacleLayer.value & 1 << other.gameObject.layer) > 0)
+        CollisionTriggerEvent triggerEvent = other.gameObject.GetComponent<CollisionTriggerEvent>();
+        if (triggerEvent != null)
         {
-            Debug.Log("collision occured");
-            if(speedIndex != 0) 
-            {
-                speedIndex--;
-            }
-        }   
+            triggerEvent.InvokeEvent();
+        }
+
+        //if ((other.gameObject.tag == "CameraTrigger")        
+    }
+
+
+    public void AdjustPlayerSpeed(int amount)
+    {
+        
+        if ((speedIndex + amount) >= 0 && (speedIndex + amount) < speedLevels.Length)
+        {
+            speedIndex = speedIndex + amount;
+        }
     }
 }
+
+

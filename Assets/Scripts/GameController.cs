@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour
 
     public bool Started;
     public PlayerController player;
+    public CameraFollow cameraFollow;
     public Canvas Menu;
     private void Awake()
     {
@@ -52,7 +54,14 @@ public class GameController : MonoBehaviour
         {
             Started = true;
             player.enabled = true;
+            
             Menu.gameObject.SetActive(false);
         }
+    }
+
+
+    public void CameraFollow(bool enabled)
+    {
+        cameraFollow.enabled = enabled;
     }
 }
