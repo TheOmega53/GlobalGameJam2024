@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 
@@ -8,7 +9,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int speedIndex = 1;
+    public int speedIndex = 2;
     public float[] speedLevels = { 5f, 7f, 10f };
     private float speed;
 
@@ -105,7 +106,7 @@ public class PlayerController : MonoBehaviour
         // Adjust collider or animation for sliding            
         animator.SetBool("isSliding", isSliding);
         sphereCollider.radius = 0.5f * sphereCollider.radius;
-        audioController.PlaySlide();
+        audioController.PlaySlide();    
     }
 
     public void stopSlide()
@@ -132,11 +133,26 @@ public class PlayerController : MonoBehaviour
 
     public void AdjustPlayerSpeed(int amount)
     {
-        
-        if ((speedIndex + amount) >= 0 && (speedIndex + amount) < speedLevels.Length)
+        if ((speedIndex + amount) < speedLevels.Length && speedIndex + amount >= 0)
         {
             speedIndex = speedIndex + amount;
         }
+
+        if (speedIndex == 1)
+        {
+            GameController.Instance.Danger(true);
+        } else
+        {
+            GameController.Instance.Danger(false);
+        }
+
+        if ((speedIndex) == 0)
+        {
+            //Game Over Logic
+            GameController.Instance.GameOver();
+            
+        }
+        
     }
 }
 

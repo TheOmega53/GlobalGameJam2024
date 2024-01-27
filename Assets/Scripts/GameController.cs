@@ -1,6 +1,8 @@
+using System;
 using System.Security.Cryptography.X509Certificates;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -41,13 +43,15 @@ public class GameController : MonoBehaviour
 
     private bool isPaused = false;
 
+    public Animator wallAnimator;
+
     private void Awake()
     {
         // Ensure there is only one instance of the GameController
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -115,11 +119,21 @@ public class GameController : MonoBehaviour
 
         audioSource.PlayOneShot(LevelMusic);
 
-        //player.animator.SetTrigger("Run");
     }
 
     public void CameraFollow(bool enabled)
     {
         cameraFollow.enabled = enabled;
+    }
+
+    public void GameOver()
+    {
+        Started = false;       
+        wallAnimator.SetBool("Game is Over", true);        
+    }
+
+    internal void Danger(bool flag)
+    {
+        wallAnimator.SetBool("InDanger", flag);
     }
 }
