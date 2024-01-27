@@ -52,13 +52,18 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Started = true;
-            player.enabled = true;
-            
-            Menu.gameObject.SetActive(false);
+
         }
     }
 
+
+    public void StartGame()
+    {
+        Started = true;
+        player.enabled = true;
+
+        Menu.gameObject.SetActive(false);
+    }
 
     public void CameraFollow(bool enabled)
     {
