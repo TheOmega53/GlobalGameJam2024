@@ -7,7 +7,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
+    public int speedIndex = 1;
+    public float[] speedLevels = { 5f, 7f, 10f };
+    private float speed;
+
     public float jumpForce = 12f; // Adjust this value for a punchier jump
     public float quickFallForce = 20f; // Additional force to make the character fall faster
     public Transform groundCheck;
@@ -17,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isSliding;
     private bool isFalling;
+
+    public LayerMask obstacleLayer;
 
     private Animator animator;
 
@@ -30,7 +35,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
+    {        
+        // Set Speed
+        speed = speedLevels[speedIndex];
+
         // Check if the player is grounded
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer);
 
@@ -47,6 +55,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Zero out the y component to avoid adding to the current y velocity
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Debug.Log("jumping");
         }
 
         // Quick fall
@@ -70,13 +79,19 @@ public class PlayerController : MonoBehaviour
 
 
         // Animation Flags
-        animator.SetBool("isGrounded", isGrounded);
-        animator.SetBool("isSliding", isSliding);
+        //animator.SetBool("isGrounded", isGrounded);
+        //animator.SetBool("isSliding", isSliding);
     }
 
-    void FixedUpdate()
+    private void OnTriggerEnter(Collider other)
     {
-
-
+        if ((obstacleLayer.value & 1 << other.gameObject.layer) > 0)
+        {
+            Debug.Log("collision occured");
+            if(speedIndex != 0) 
+            {
+                speedIndex--;
+            }
+        }   
     }
 }
