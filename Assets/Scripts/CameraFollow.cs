@@ -6,6 +6,7 @@ public class CameraFollow : MonoBehaviour
     public float smoothSpeed = 0.125f;
     public float smoothTime = 1.0f;
     public float Xoffset = 5f; // Offset from the player
+    public float Yoffset = 6f; // Offset from the player
 
     private Vector3 velocity = Vector3.zero;
 
@@ -14,13 +15,8 @@ public class CameraFollow : MonoBehaviour
     {
         if (target != null && Time.timeScale != 0f)
         {
-            // Keep the camera's Y position fixed
-            float desiredY = transform.position.y;
-            float smoothedY = Mathf.SmoothDamp(transform.position.y, desiredY, ref velocity.y, smoothTime);
-
-            // Follow the player horizontally
-            Vector3 desiredPosition = new Vector3(target.position.x + Xoffset, smoothedY, transform.position.z);
-
+            // Follow the player horizontally and vertically
+            Vector3 desiredPosition = new Vector3(target.position.x + Xoffset, target.position.y + Yoffset, transform.position.z);
 
             Vector3 smoothedPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime);
             transform.position = smoothedPosition;

@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
     public PlayerController player;
     public CameraFollow cameraFollow;
     public Canvas Menu;
-
+    public Canvas PauseMenu;
 
     public AudioClip IntroMusic;
     public AudioClip LevelMusic;
@@ -92,7 +92,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0f;
 
         // You can also add additional logic for pausing game elements or showing a pause menu
-        Debug.Log("Game Paused");
+        PauseMenu.gameObject.SetActive(true);
     }
 
     void Unpause()
@@ -102,6 +102,7 @@ public class GameController : MonoBehaviour
 
         // You can also add additional logic for unpausing game elements or hiding a pause menu
         Debug.Log("Game Unpaused");
+        PauseMenu.gameObject.SetActive(false);
     }
 
 
@@ -135,5 +136,10 @@ public class GameController : MonoBehaviour
     internal void Danger(bool flag)
     {
         wallAnimator.SetBool("InDanger", flag);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

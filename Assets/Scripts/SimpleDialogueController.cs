@@ -15,10 +15,14 @@ public class DialogueController : MonoBehaviour
     private int currentDialogueIndex = 0; // Index of the current dialogue
     private bool isTyping = false; // Flag to check if the typing coroutine is currently active
 
+
+    public string[] jokeBank;
+
     // Start is called before the first frame update
     void Start()
     {
         currentDialoguePanel = dialogueTexts[currentDialogueIndex].transform.parent.gameObject;
+        dialogueTexts[0].text = jokeBank[UnityEngine.Random.Range(0, jokeBank.Length)];
         ShowCurrentDialogue();
     }
 
