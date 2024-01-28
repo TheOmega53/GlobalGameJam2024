@@ -93,7 +93,10 @@ public class PlayerController : MonoBehaviour
         // Slide
         if (Input.GetButtonDown("Slide"))
         {
-            Slide();
+            if (!isSliding)
+            {
+                Slide();
+            }            
         }
 
 
@@ -105,18 +108,17 @@ public class PlayerController : MonoBehaviour
         isSliding = true;
         // Adjust collider or animation for sliding            
         animator.SetBool("isSliding", isSliding);
+        sphereCollider.center = new Vector3(sphereCollider.center.x, sphereCollider.center.y * 0.5f, sphereCollider.center.z);
         sphereCollider.radius = 0.5f * sphereCollider.radius;
         audioController.PlaySlide();    
     }
 
     public void stopSlide()
     {
-        if (isSliding)
-        {
             isSliding = false;
             animator.SetBool("isSliding", isSliding);
             sphereCollider.radius = 2 * sphereCollider.radius;
-        }
+            sphereCollider.center = new Vector3(sphereCollider.center.x, sphereCollider.center.y * 2f, sphereCollider.center.z);             
     }
 
     private void OnTriggerEnter(Collider other)

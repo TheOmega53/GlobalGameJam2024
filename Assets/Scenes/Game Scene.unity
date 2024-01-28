@@ -2819,7 +2819,7 @@ MonoBehaviour:
   cameraFollow: {fileID: 1799775461}
   Menu: {fileID: 119323713}
   IntroMusic: {fileID: 8300000, guid: 1da71fb337f299c4eaca45947b4c9474, type: 3}
-  LevelMusic: {fileID: 8300000, guid: 217059e1f7209c141be76c20c2a35927, type: 3}
+  LevelMusic: {fileID: 8300000, guid: c38ccafbd4bcb1343b8362d1f7584d81, type: 3}
   audioSource: {fileID: 920086246}
   wallAnimator: {fileID: 1664897999}
 --- !u!4 &920086245
@@ -5940,7 +5940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1744596335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7805,12 +7805,16 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1704129194757231677, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
+      propertyPath: m_LocalScale.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1704129194757231677, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.85
       objectReference: {fileID: 0}
     - target: {fileID: 1704129194757231677, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.51
       objectReference: {fileID: 0}
     - target: {fileID: 1704129194757231677, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7848,6 +7852,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3715773834510068776, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715773834510068776, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
+      propertyPath: m_Center.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3750516948191278325, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
+      propertyPath: slideSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ca676cd6700a534eabbb8ee6280992b, type: 3}
     - target: {fileID: 6226893315462625782, guid: 066e2d5df0a42a342a661236a1ecf715, type: 3}
       propertyPath: m_Mass
       value: 10
