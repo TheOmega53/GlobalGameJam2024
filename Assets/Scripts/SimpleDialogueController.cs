@@ -29,6 +29,43 @@ public class DialogueController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_ANDROID
+// Check for user input to progress to the next dialogue
+        if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+        {
+
+            if (!isTyping)
+            {
+
+                // Hide previous dialoguebox if not same
+                currentDialoguePanel = dialogueTexts[currentDialogueIndex].transform.parent.gameObject;
+                
+                currentDialoguePanel.SetActive(false);
+
+
+                // If typing coroutine is not active, go to the next dialogue
+                currentDialogueIndex++;
+
+                // Check if there are more dialogues
+                if (currentDialogueIndex < dialogueTexts.Length)
+                {
+                    ShowCurrentDialogue();
+                }
+                else
+                {
+                    // All dialogues displayed, you can add additional logic here
+                    endOfDialogueEvent.Invoke();
+                }
+            }
+            else
+            {
+                // If typing coroutine is active, complete it instantly
+                StopAllCoroutines();
+                isTyping = false;
+                dialogueTexts[currentDialogueIndex].text = currentMessage;
+            }
+        }
+#else
         // Check for user input to progress to the next dialogue
         if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -64,6 +101,7 @@ public class DialogueController : MonoBehaviour
                 dialogueTexts[currentDialogueIndex].text = currentMessage;
             }
         }
+#endif
     }
 
     // Coroutine to gradually display the message
