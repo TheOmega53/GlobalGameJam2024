@@ -106,10 +106,13 @@ public class GameController : MonoBehaviour
     }
 
 
-    private void Start()
+    public void Start()
     {
-        audioSource.PlayOneShot(IntroMusic);
+        audioSource.clip = IntroMusic;
+        audioSource.Play();
+        audioSource.loop = true;
     }
+
 
     public void StartGame()
     {
@@ -118,10 +121,11 @@ public class GameController : MonoBehaviour
 
         Menu.gameObject.SetActive(false);
 
-        audioSource.Stop();
-        audioSource.PlayOneShot(LevelMusic);
+        audioSource.clip = LevelMusic;
+        audioSource.Play();
 
     }
+
 
     public void CameraFollow(bool enabled)
     {
