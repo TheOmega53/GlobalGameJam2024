@@ -118,6 +118,7 @@ public class GameController : MonoBehaviour
 
         Menu.gameObject.SetActive(false);
 
+        audioSource.Stop();
         audioSource.PlayOneShot(LevelMusic);
 
     }
